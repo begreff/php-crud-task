@@ -1,0 +1,16 @@
+{
+    "name": "tomas/nfq-internship-task",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Tomas Mikus",
+            "email": "tomas.mikus@outlook.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    }
+}
