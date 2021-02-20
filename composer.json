@@ -11,8 +11,7 @@
     "autoload": {
         "psr-4": {
             "src\\": "src/",
-            "config\\": "config/",
-            "public\\": "public/"
+            "config\\": "config/"
         }
     }
 }
