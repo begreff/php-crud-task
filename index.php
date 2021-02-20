@@ -1,12 +1,8 @@
 <?php
 include 'templates/header.php';
-require 'vendor/autoload.php';
-use config\Database;
+include 'templates/bootstrap.php';
+
 use src\objects\Project;
-
-$config = require 'config/config.php';
-$db = new Database($config['database']);
-
 $projectGateway = new Project($db->getConnection());
 $projects = $projectGateway->all();
 
