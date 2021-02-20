@@ -10,7 +10,9 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "src\\": "src/"
+            "src\\": "src/",
+            "config\\": "config/",
+            "public\\": "public/"
         }
     }
 }
