@@ -1,6 +1,6 @@
 <?php
 
-namespace resources;
+namespace config;
 
 class Database {
     private \PDO $pdo;
