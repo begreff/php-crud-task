@@ -55,8 +55,10 @@ class Project
                 'num_groups' => $parameters['num_groups'],
                 'students_per_group' => $parameters['students_per_group'],
             ));
+            return $this->db_conn->lastInsertID();
         } catch (\Exception $e) {
             print_r($e->getMessage());
+            return null;
         }
     }
 
