@@ -46,17 +46,15 @@ class Project
 
     public function create($parameters)
     {
-        $sql = sprintf(
-            'INSERT INTO projects (%s) VALUES (%s)',
-            implode(', ', array_keys($parameters)),
-            ':' . implode(', :', array_keys($parameters))
-        );
-
-        var_dump($sql);
-
+        $sql = "INSERT INTO projects (title, num_groups, students_per_group)
+                VALUES (:title, :num_groups, :students_per_group)";
         try {
             $statement = $this->db_conn->prepare($sql);
-            $statement->execute();
+            $statement->execute(array(
+                'title' => $parameters['title'],
+                'num_groups' => $parameters['num_groups'],
+                'students_per_group' => $parameters['students_per_group'],
+            ));
         } catch (\Exception $e) {
             print_r($e->getMessage());
         }
