@@ -6,10 +6,9 @@ require 'templates/bootstrap.php';
 use src\objects\Project;
 
 $projectGateway = new Project($db->getConnection());
-
 $project_id = (int) $_GET['project_id'];
-
 $project = $projectGateway->read($project_id);
+
 ?>
 
 <h1 class="my-3">Add New Student to <?= $project['title'] ?></h1>
@@ -28,7 +27,6 @@ $project = $projectGateway->read($project_id);
             </div>
 
             <input type="hidden" name="project_id" id="project_id" value="<?= $project_id ?>">
-            <input type="hidden" name="hidden_id" id="hidden_id" />
             <input type="hidden" name="action" id="action" value="create" />
             <input type="submit" name="button_action" id="button_action" class="btn btn-info" value="Create" />
             </div>
@@ -37,28 +35,21 @@ $project = $projectGateway->read($project_id);
 </div>
 
 <script type="text/javascript">
-        // Create student
-        $('#studentForm').on('submit', function (event) {
-            event.preventDefault();
-            let form_data = $(this).serialize();
-            let project_id = document.getElementById("project_id").value;
-            $.ajax({
-                url: "student_actions.php",
-                type: "POST",
-                data: form_data,
-                success: function (data) {
-                    if (data === 'updated') {
-                        alert("Student information has been successfully updated.");
-                    } else if (data === 'created') {
-                        alert("Student has been successfully created.");
-                    } else {
-                        alert("Could not carry out the request.");
-                    }
-                    window.location.href = "project_view.php?id=" + project_id;
-                }
-            });
+    // Create student
+    $('#studentForm').on('submit', function (event) {
+        event.preventDefault();
+        let form_data = $(this).serialize();
+        let project_id = document.getElementById("project_id").value;
+        $.ajax({
+            url: "students.php",
+            type: "POST",
+            data: form_data,
+            success: function (response) {
+                alert(response);
+                window.location.href = "project_view.php?id=" + project_id;
+            }
         });
-
+    });
 </script>
 
 <?php include("templates/footer.php"); ?>
