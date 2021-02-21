@@ -25,4 +25,14 @@ class Database {
         return $this->pdo;
     }
 
+    // Sanitize inputs
+    public function testInput($data)
+    {
+        $data = strip_tags($data);
+        $data = htmlspecialchars($data);
+        $data = stripslashes($data);
+        $data = trim($data);
+        return $data;
+    }
+
 }
