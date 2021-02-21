@@ -49,8 +49,8 @@ class Project
         $sql = "INSERT INTO projects (title, num_groups, students_per_group)
                 VALUES (:title, :num_groups, :students_per_group)";
         try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array(
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute(array(
                 'title' => $parameters['title'],
                 'num_groups' => $parameters['num_groups'],
                 'students_per_group' => $parameters['students_per_group'],
@@ -62,32 +62,17 @@ class Project
         }
     }
 
-    public function update($id, $parameters)
+    public function getUnassignedStudents($project_id)
     {
-        $columns = array();
-
-        foreach($parameters as $column => $value)
-        {
-            $columns[] = "$column = '$value'";
-        }
-
-        $sql = "UPDATE projects SET" . implode(', ', $columns) . "WHERE ?";
+        $sql = "SELECT students.id, students.firstname, students.lastname, students.group_number
+            FROM students
+            INNER JOIN projects p ON students.project_id = p.id
+            WHERE p.id = $project_id AND students.group_number IS NULL";
 
         try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array($id));
-        } catch (\Exception $e) {
-            exit($e->getMessage());
-        }
-    }
-
-    public function delete($id)
-    {
-        $sql = "DELETE FROM projects WHERE id = ?";
-
-        try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array($id));
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
