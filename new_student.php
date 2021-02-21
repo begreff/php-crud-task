@@ -1,6 +1,6 @@
 <?php
 
-include 'templates/header.php';
+include 'views/header.php';
 require 'vendor/autoload.php';
 require 'config/conn.php';
 
@@ -53,6 +53,6 @@ $project = $projectGateway->read($project_id);
     });
 </script>
 
-<?php include("templates/footer.php"); ?>
+<?php include("views/footer.php"); ?>
 
 

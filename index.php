@@ -1,5 +1,5 @@
 <?php
-include 'templates/header.php';
+include 'views/header.php';
 require 'vendor/autoload.php';
 require 'config/conn.php';
 
@@ -25,4 +25,4 @@ $projects = $projectGateway->all();
 
 <button type="button" class="btn btn-primary"><a href="new_project.php" class="text-light">Add New Project</a></button>
 
-<?php include 'templates/footer.php';
+<?php include 'views/footer.php';

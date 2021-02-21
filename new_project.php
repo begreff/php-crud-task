@@ -1,4 +1,4 @@
-<?php include 'templates/header.php' ?>
+<?php include 'views/header.php' ?>
 
 <h1 class="my-3">Create New Project</h1>
 <div class="card my-3">
@@ -23,4 +23,4 @@
 
 <button class="btn btn-primary"><a class="text-light" href="index.php">Back to homepage</a></button>
 
-<?php include 'templates/footer.php' ?>
+<?php include 'views/footer.php' ?>
