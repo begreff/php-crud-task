@@ -10,25 +10,26 @@ class Student
     // project properties
     public $firstname;
     public $lastname;
+    public $group_number;
 
     public function __construct($db_conn)
     {
         $this->db_conn = $db_conn;
     }
 
-    function all($project_id)
+    function all()
     {
-        $sql= "SELECT * FROM students WHERE project_id = ?";
+        $sql = "SELECT * FROM students";
         try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array($project_id));
-            return $statement->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException) {
             exit($e->getMessage());
         }
     }
 
-    function create()
+    function create($firstname, $lastname, $project_id)
     {
         $sql = "INSERT INTO students (firstname, lastname, project_id) 
                 VALUES (:firstname, :lastname, :project_id)";
@@ -36,9 +37,9 @@ class Student
         try {
             $stmt = $this->db_conn->prepare($sql);
             return $stmt->execute(array(
-                ':firstname' => $_POST['firstname'],
-                ':lastname' => $_POST['lastname'],
-                ':project_id' => $_POST['project_id']
+                ':firstname' => $firstname,
+                ':lastname' => $lastname,
+                ':project_id' => $project_id
             ));
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -48,32 +49,16 @@ class Student
     function read($id)
     {
         $sql = "SELECT * FROM students WHERE id = ?";
-        $stmt = $this->db_conn->prepare($sql);
-        $stmt->execute(array($id));
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
-
-    public function updateGroup($table, $id, $parameters)
-    {
-        $sql = "UPDATE {$table} SET";
-        $comma = " ";
-        foreach($parameters as $key => $val) {
-            if( ! empty($val)) {
-                $sql .= $comma . $key . " = '" . $val . "'";
-                $comma = ", ";
-            }
-        }
-        $sql .= "WHERE id = {$id}";
-
         try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute($parameters);
-        } catch (\Exception $e) {
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute(array($id));
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException) {
             exit($e->getMessage());
         }
     }
 
-    function update()
+    function update($id, $firstname, $lastname, $group_number)
     {
         $sql = "UPDATE students 
                 SET firstname = :firstname, lastname = :lastname 
@@ -81,9 +66,10 @@ class Student
         try {
             $statement = $this->db_conn->prepare($sql);
             return $statement->execute(array(
-                ':firstname' => $_POST['firstname'],
-                ':lastname' => $_POST['lastname'],
-                ':id' => $_POST['hidden_id']
+                ':id' => $id,
+                ':firstname' => $firstname,
+                ':lastname' => $lastname,
+                ':group_number' => $group_number
             ));
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -100,6 +86,5 @@ class Student
             exit($e->getMessage());
         }
     }
-
 }
 
