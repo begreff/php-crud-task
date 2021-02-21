@@ -108,7 +108,14 @@ $unassignedStudents =  $projectGateway->getUnassignedStudents($project_id);
                 });
             }
         });
+
+        // auto refresh the page every 10 seconds
+        setInterval('refreshPage()', 10000);
     });
+
+    function refreshPage() {
+        location.reload();
+    }
 </script>
 
 <?php include 'templates/footer.php' ?>
