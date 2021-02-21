@@ -62,7 +62,7 @@ class Project
         }
     }
 
-    public function getUnassignedStudents($project_id)
+    public function unassignedStudents($project_id)
     {
         $sql = "SELECT students.id, students.firstname, students.lastname, students.group_number
             FROM students
@@ -73,6 +73,18 @@ class Project
             $stmt = $this->db_conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    function students($id)
+    {
+        $sql= "SELECT * FROM students WHERE project_id = ? ORDER BY id";
+        try {
+            $statement = $this->db_conn->prepare($sql);
+            $statement->execute(array($id));
+            return $statement->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
