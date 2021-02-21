@@ -80,11 +80,12 @@ $unassignedStudents =  $projectGateway->unassignedStudents($project_id);
                     echo "
                     <tr>
                         <td>
-                            <form action='update_user_group_action.php?project_id={$project_id}&group_number={$groupNumber}' method='post'>
+                            <form action='update_group_action.php?project_id={$project_id}&group_number={$groupNumber}' method='post'>
                                 <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
                                 <option value=''>Assign student</option>";
                                 foreach ($unassignedStudents as $student) {
-                                    echo "<option value='{$student['id']}'>" . $student['firstname'] . " " . $student['lastname'] . "</option>";
+                                    $fullname = $student['firstname'] . " " . $student['lastname'];
+                                    echo "<option value='{$student['id']}'>" . $fullname . "</option>";
                                 }
                     echo "</select>
                            </form>
@@ -100,6 +101,7 @@ $unassignedStudents =  $projectGateway->unassignedStudents($project_id);
 <button class="btn btn-primary"><a class="text-light" href="index.php">Back to homepage</a></button>
 
 <script type="text/javascript">
+
     // Delete student
     $(document).on('click', '.delete', function(){
         let id = $(this).attr("id");
@@ -109,7 +111,6 @@ $unassignedStudents =  $projectGateway->unassignedStudents($project_id);
             $.ajax({
                 url: "students.php?id=" + id,
                 type: "DELETE",
-                data: {id:id},
                 success: function(response) {
                     alert(response);
                     window.location.href = "project_view.php?id=" + project_id;
