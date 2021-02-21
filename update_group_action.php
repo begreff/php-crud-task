@@ -1,10 +1,11 @@
 <?php
 
-require 'templates/bootstrap.php';
+require 'vendor/autoload.php';
+require 'config/conn.php';
 
-use src\objects\Student;
+use src\StudentRepository;
 
-$studentGateway = new Student($db->getConnection());
+$studentGateway = new StudentRepository($db->getConnection());
 
 $student_id = (int)$_POST['studentSelected'];
 $project_id = (int)$_GET['project_id'];

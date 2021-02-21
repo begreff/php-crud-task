@@ -1,8 +1,8 @@
 <?php
 
-namespace src\objects;
+namespace src;
 
-class Student
+class StudentRepository
 {
     // database connection and table
     private $db_conn;

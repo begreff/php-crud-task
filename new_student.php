@@ -1,11 +1,12 @@
 <?php
 
 include 'templates/header.php';
-require 'templates/bootstrap.php';
+require 'vendor/autoload.php';
+require 'config/conn.php';
 
-use src\objects\Project;
+use src\ProjectRepository;
 
-$projectGateway = new Project($db->getConnection());
+$projectGateway = new ProjectRepository($db->getConnection());
 $project_id = (int) $_GET['project_id'];
 $project = $projectGateway->read($project_id);
 

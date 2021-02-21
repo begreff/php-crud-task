@@ -1,12 +1,13 @@
 <?php
 
-require 'templates/bootstrap.php';
+require 'vendor/autoload.php';
+require 'config/conn.php';
 
-use src\objects\Project;
-use src\objects\Group;
+use src\ProjectRepository;
+use src\GroupRepository;
 
-$projectGateway = new Project($db->getConnection());
-$groupGateway = new Group($db->getConnection());
+$projectGateway = new ProjectRepository($db->getConnection());
+$groupGateway = new GroupRepository($db->getConnection());
 
 // create project
 $id = $projectGateway->create([

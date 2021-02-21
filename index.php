@@ -1,9 +1,10 @@
 <?php
 include 'templates/header.php';
-include 'templates/bootstrap.php';
+require 'vendor/autoload.php';
+require 'config/conn.php';
 
-use src\objects\Project;
-$projectGateway = new Project($db->getConnection());
+use src\ProjectRepository;
+$projectGateway = new ProjectRepository($db->getConnection());
 $projects = $projectGateway->all();
 
 ?>

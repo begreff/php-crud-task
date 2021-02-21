@@ -1,6 +1,5 @@
 <?php
 
-require 'vendor/autoload.php';
 use config\Database;
 
 $config = require 'config/config.php';

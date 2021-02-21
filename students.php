@@ -3,11 +3,13 @@
 // CORS headers
 header('Access-Control-Allow-Origin: *');
 
-require 'templates/bootstrap.php';
-use src\objects\Student;
+require 'vendor/autoload.php';
+require 'config/conn.php';
+
+use src\StudentRepository;
 
 // Create object for accessing the student table in the database
-$studentGateway = new Student($db->getConnection());
+$studentGateway = new StudentRepository($db->getConnection());
 
 // Create an API variable to get the HTTP method dynamically
 $api = $_SERVER['REQUEST_METHOD'];
@@ -35,7 +37,7 @@ if ($api == 'POST') {
     $project_id = $db->testInput($_POST['project_id']);
 
     if ($studentGateway->create($firstname, $lastname, $project_id)) {
-        echo 'Student added successfully.';
+        echo 'StudentRepository added successfully.';
     } else {
         echo "Failed to create student.";
     }
@@ -51,12 +53,12 @@ if ($api == 'PUT') {
 
     if ($id != null) {
         if ($studentGateway->update($id, $group_number)) {
-            echo 'Student updated successfully.';
+            echo 'StudentRepository updated successfully.';
         } else {
             echo "Failed to update student.";
         }
     } else {
-        echo 'Student not found.';
+        echo 'StudentRepository not found.';
     }
 }
 
@@ -64,11 +66,11 @@ if ($api == 'PUT') {
 if ($api == 'DELETE') {
     if ($id != 0) {
         if ($studentGateway->delete($id)) {
-            echo 'Student deleted successfully.';
+            echo 'StudentRepository deleted successfully.';
         } else {
             echo 'Failed to delete student.';
         }
     } else {
-        echo 'Student not found.';
+        echo 'StudentRepository not found.';
     }
 }
