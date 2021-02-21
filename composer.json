@@ -7,7 +7,10 @@
             "email": "tomas.mikus@outlook.com"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
     "autoload": {
         "psr-4": {
             "src\\": "src/",
