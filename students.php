@@ -37,7 +37,7 @@ if ($api == 'POST') {
     $project_id = $db->testInput($_POST['project_id']);
 
     if ($studentGateway->create($firstname, $lastname, $project_id)) {
-        echo 'StudentRepository added successfully.';
+        echo 'Student added successfully.';
     } else {
         echo "Failed to create student.";
     }
@@ -53,12 +53,12 @@ if ($api == 'PUT') {
 
     if ($id != null) {
         if ($studentGateway->update($id, $group_number)) {
-            echo 'StudentRepository updated successfully.';
+            echo 'Student updated successfully.';
         } else {
             echo "Failed to update student.";
         }
     } else {
-        echo 'StudentRepository not found.';
+        echo 'Student not found.';
     }
 }
 
@@ -66,11 +66,11 @@ if ($api == 'PUT') {
 if ($api == 'DELETE') {
     if ($id != 0) {
         if ($studentGateway->delete($id)) {
-            echo 'StudentRepository deleted successfully.';
+            echo 'Student deleted successfully.';
         } else {
             echo 'Failed to delete student.';
         }
     } else {
-        echo 'StudentRepository not found.';
+        echo 'Student not found.';
     }
 }
