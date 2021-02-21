@@ -12,9 +12,7 @@ switch ($_POST['action']) {
         $response = curl_exec($client);
         curl_close($client);
         $result = json_decode($response, true);
-        if ($result) {
-            echo "created";
-        }
+        if ($result) echo "created";
         break;
 
     case 'read':
@@ -35,9 +33,7 @@ switch ($_POST['action']) {
         $response = curl_exec($client);
         curl_close($client);
         $result = json_decode($response, true);
-        if ($result) {
-            echo 'updated';
-        }
+        if ($result) echo 'updated';
         break;
 
     case 'delete':
