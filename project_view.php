@@ -12,7 +12,8 @@ $groupGateway = new Group($db->getConnection());
 $project_id = (int) $_GET['id'];
 $project = $projectGateway->read($project_id);
 $groups = $groupGateway->all($project_id);
-$unassignedStudents =  $projectGateway->getUnassignedStudents($project_id);
+$students = $projectGateway->students($project_id);
+$unassignedStudents =  $projectGateway->unassignedStudents($project_id);
 
 ?>
 
@@ -27,6 +28,26 @@ $unassignedStudents =  $projectGateway->getUnassignedStudents($project_id);
 <h1 class="my-3">Students</h1>
     <table id="studentsTable" class='table table-bordered'>
         <tbody>
+            <thead class='thead-light'>
+                <tr>
+                    <th>Student</th>
+                    <th>Group</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        <?php if (count($students) > 0) : ?>
+            <?php foreach($students as $student) : ?>
+            <tr>
+                <td><?= $student['firstname'] ?> <?= $student['lastname'] ?></td>
+                <td><?= $student['group_number'] ?></td>
+                <td><button type="button" name="delete" class="btn btn-danger btn-xs delete" id="<?= $student['id'] ?>">Delete</button></td>
+            </tr>
+            <?php endforeach; ?>
+        <?php else :?>
+            <tr>
+                <td colspan="4">No Students Found</td>
+            </tr>
+        <?php endif; ?>
         </tbody>
     </table>
     <div class="pt-3 pb-4">
@@ -79,44 +100,26 @@ $unassignedStudents =  $projectGateway->getUnassignedStudents($project_id);
 <button class="btn btn-primary"><a class="text-light" href="index.php">Back to homepage</a></button>
 
 <script type="text/javascript">
-
-    $(document).ready(function() {
-        fetch_data();
-
-        // Show all students
-        function fetch_data() {
-            let project_id = document.getElementById("project_id").value;
+    // Delete student
+    $(document).on('click', '.delete', function(){
+        let id = $(this).attr("id");
+        console.log(id);
+        let project_id = document.getElementById("project_id").value;
+        if(confirm("Are you sure you want to remove this student?")) {
             $.ajax({
-                url: "fetch.php",
-                type: "GET",
-                data: { project_id : project_id },
-                success: function (data) {
-                    $('#studentsTable').html(data);
+                url: "students.php?id=" + id,
+                type: "DELETE",
+                data: {id:id},
+                success: function(response) {
+                    alert(response);
+                    window.location.href = "project_view.php?id=" + project_id;
                 }
-            })
+            });
         }
-
-        // Delete student
-        $(document).on('click', '.delete', function(){
-            let id = $(this).attr("id");
-            let action = 'delete';
-            let project_id = document.getElementById("project_id").value;
-            if(confirm("Are you sure you want to remove this student?")) {
-                $.ajax({
-                    url:"student_actions.php",
-                    method:"POST",
-                    data:{ id:id, action:action },
-                    success: function() {
-                        alert("Student has been deleted from the project.");
-                        window.location.href = "project_view.php?id=" + project_id;
-                    }
-                });
-            }
-        });
-
-        // auto refresh the page every 10 seconds
-        setInterval('refreshPage()', 10000);
     });
+
+    // Auto refresh the page every 10 seconds
+    setInterval('refreshPage()', 10000);
 
     function refreshPage() {
         location.reload();
