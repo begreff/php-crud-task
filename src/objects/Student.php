@@ -24,7 +24,7 @@ class Student
             $stmt = $this->db_conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException) {
+        } catch (\PDOException $e) {
             exit($e->getMessage());
         }
     }
@@ -53,22 +53,20 @@ class Student
             $stmt = $this->db_conn->prepare($sql);
             $stmt->execute(array($id));
             return $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch (\PDOException) {
+        } catch (\PDOException $e) {
             exit($e->getMessage());
         }
     }
 
-    function update($id, $firstname, $lastname, $group_number)
+    function update($id, $group_number)
     {
         $sql = "UPDATE students 
-                SET firstname = :firstname, lastname = :lastname 
+                SET group_number = :group_number
                 WHERE id = :id";
         try {
             $statement = $this->db_conn->prepare($sql);
             return $statement->execute(array(
                 ':id' => $id,
-                ':firstname' => $firstname,
-                ':lastname' => $lastname,
                 ':group_number' => $group_number
             ));
         } catch (\PDOException $e) {
