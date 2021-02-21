@@ -50,7 +50,7 @@ if ($api == 'PUT') {
     $group_number = $db->testInput($post_input['group_number']);
 
     if ($id != null) {
-        if ($studentGateway->update($firstname, $lastname, $group_number)) {
+        if ($studentGateway->update($id, $group_number)) {
             echo 'Student updated successfully.';
         } else {
             echo "Failed to update student.";
