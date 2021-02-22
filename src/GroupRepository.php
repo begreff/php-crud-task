@@ -4,17 +4,29 @@ namespace src;
 
 class GroupRepository
 {
-    // database connection and table
     private $db_conn;
-
-    // project properties
-    public $id;
-    public $project_id;
-    public $group_number;
 
     public function __construct($db_conn)
     {
         $this->db_conn = $db_conn;
+    }
+
+    public function all($projectID)
+    {
+        $sql = "SELECT p.id AS project_id, s.group_number, s.firstname, 
+                    s.lastname
+                FROM student_groups g
+                INNER JOIN students s ON g.project_id = s.project_id 
+                    AND s.group_number = g.group_number
+                INNER JOIN projects p on s.project_id = p.id
+                WHERE s.project_id = ?";
+        try {
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute(array($projectID));
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
     }
 
     public function create($parameters)
@@ -32,43 +44,20 @@ class GroupRepository
         }
     }
 
-    public function all($project_id)
+    public function count($projectID)
     {
-        $data = [];
-        $groups = $this->getAllGroups($project_id);
-        foreach ($groups as $group) {
-            $groupMembers = $this->getGroupMembers($project_id, $group['group_number']);
-            $data[$group['group_number']] = $groupMembers;
-        }
-        return $data;
-    }
-
-    private function getAllGroups($project_id): array
-    {
-        $sql = "SELECT project_id, group_number  
-                FROM student_groups
-                WHERE project_id = ? ";
+        $sql = "SELECT p.id AS project,
+                       p.students_per_group AS capacity,
+                       count(s.id) AS count, s.group_number
+                FROM students s 
+                INNER JOIN projects p on s.project_id = p.id
+                WHERE s.project_id = ?
+                    AND s.group_number IS NOT NULL
+                GROUP BY s.group_number";
 
         try {
             $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array($project_id));
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-
-    private function getGroupMembers($projectID, $groupNumber): array
-    {
-        $sql = "SELECT student_groups.group_number, students.firstname, students.lastname  
-                FROM student_groups
-                INNER JOIN students 
-                    ON student_groups.project_id = students.project_id AND student_groups.group_number = students.group_number
-                WHERE student_groups.project_id = ? AND student_groups.group_number = ? ";
-
-        try {
-            $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array($projectID, $groupNumber));
+            $stmt->execute(array($projectID));
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
