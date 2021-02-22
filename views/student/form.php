@@ -16,6 +16,6 @@
             <input type="hidden" name="project_id" id="project_id" value="<?= $project_id ?>">
             <input type="hidden" name="action" id="action" value="create" />
             <input type="submit" name="button_action" id="button_action" class="btn btn-info" value="Create" />
+        </form>
     </div>
-    </form>
 </div>

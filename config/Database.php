@@ -2,7 +2,8 @@
 
 namespace config;
 
-class Database {
+class Database
+{
     private \PDO $pdo;
 
     public function __construct($config) {
