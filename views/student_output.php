@@ -12,6 +12,29 @@ function newStudentButton($projectID) {
     ";
 }
 
+function studentForm($project) {
+    echo "
+    <h1 class='my-3'>Add New Student to ".$project['title']."</h1>
+    <div class='card my-3'>
+        <div class='card-body'>
+            <form method='post' id='studentForm'>
+                <div class='form-group'>
+                    <label>Enter First Name</label>
+                    <input type='text' name='firstname' id='firstname' class='form-control' required />
+                </div>
+                <div class='form-group'>
+                    <label>Enter Last Name</label>
+                    <input type='text' name='lastname' id='lastname' class='form-control' required />
+                </div>
+    
+                <input type='hidden' name='project_id' id='project_id' value=".$project['id'].">
+                <input type='submit' name='button_action' id='button_action' class='btn btn-info' value='Create' />
+            </form>
+        </div>
+    </div>
+    ";
+}
+
 function studentTableList($students) {
     echo "
     <h1 class='my-3'>Students</h1>
@@ -32,7 +55,7 @@ function studentTableList($students) {
                 <td>" . $student['group_number'] . "</td>
                 <td>
                     <button type='button' name='delete' class='btn 
-                        btn-danger btn-xs delete' id=" . $student['id'] . ">
+                        btn-danger btn-xs delete' id=".$student['id'].">
                         Delete
                     </button>
                 </td>
