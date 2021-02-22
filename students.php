@@ -32,9 +32,9 @@ if ($api == 'GET' and $id == 0) {
 
 // Add a new student to the database
 if ($api == 'POST') {
-    $firstname = $db->testInput($_POST['firstname']);
-    $lastname = $db->testInput($_POST['lastname']);
-    $project_id = $db->testInput($_POST['project_id']);
+    $firstname = $db->sanitizeInput($_POST['firstname']);
+    $lastname = $db->sanitizeInput($_POST['lastname']);
+    $project_id = $db->sanitizeInput($_POST['project_id']);
 
     if ($studentGateway->create($firstname, $lastname, $project_id)) {
         echo 'Student added successfully.';
@@ -47,9 +47,9 @@ if ($api == 'POST') {
 if ($api == 'PUT') {
     parse_str(file_get_contents('php://input'), $post_input);
 
-    $firstname = $db->testInput($post_input['firstname']);
-    $lastname = $db->testInput($post_input['lastname']);
-    $group_number = $db->testInput($post_input['group_number']);
+    $firstname = $db->sanitizeInput($post_input['firstname']);
+    $lastname = $db->sanitizeInput($post_input['lastname']);
+    $group_number = $db->sanitizeInput($post_input['group_number']);
 
     if ($id != null) {
         if ($studentGateway->update($id, $group_number)) {
