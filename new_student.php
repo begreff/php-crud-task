@@ -3,6 +3,8 @@
 include 'views/layout/header.php';
 require 'vendor/autoload.php';
 require 'config/conn.php';
+include 'views/student_output.php';
+include 'views/layout/output_helpers.php';
 
 use src\ProjectRepository;
 
@@ -10,7 +12,8 @@ $projectGateway = new ProjectRepository($db->getConnection());
 $project_id = (int) $_GET['project_id'];
 $project = $projectGateway->read($project_id);
 
-require 'views/student/form.php';
-include 'views/layout/back_button.php';
-include 'views/student/create_js.php';
+studentForm($project);
+include 'views/layout/back_to_homepage.php';
+includeJS('assets/createStudent.js');
+
 include 'views/layout/footer.php';
