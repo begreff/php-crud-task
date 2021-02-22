@@ -7,9 +7,6 @@ use src\ProjectRepository;
 $projectGateway = new ProjectRepository($db->getConnection());
 $projects = $projectGateway->all();
 
-?>
-
-<?php require 'views/project/list.php' ?>
-
-<?php include 'views/project/new_button.php' ?>
-<?php include 'views/layout/footer.php';
+include 'views/project/list.php';
+include 'views/project/new_button.php';
+include 'views/layout/footer.php';
