@@ -4,14 +4,7 @@ namespace src;
 
 class ProjectRepository
 {
-    // database connection and table
     private $db_conn;
-
-    // project properties
-    public $id;
-    public $title;
-    public $numOfGroups;
-    public $studentsPerGroup;
 
     public function __construct($db_conn)
     {
@@ -64,10 +57,11 @@ class ProjectRepository
 
     public function unassignedStudents($project_id)
     {
-        $sql = "SELECT students.id, students.firstname, students.lastname, students.group_number
-            FROM students
-            INNER JOIN projects p ON students.project_id = p.id
-            WHERE p.id = $project_id AND students.group_number IS NULL";
+        $sql = "SELECT students.id, students.firstname, 
+                       students.lastname, students.group_number
+                FROM students
+                INNER JOIN projects p ON students.project_id = p.id
+                WHERE p.id = $project_id AND students.group_number IS NULL";
 
         try {
             $stmt = $this->db_conn->prepare($sql);
