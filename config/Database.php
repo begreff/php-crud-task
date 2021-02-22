@@ -26,8 +26,7 @@ class Database
         return $this->pdo;
     }
 
-    // Sanitize inputs
-    public function testInput($data)
+    public function sanitizeInput($data)
     {
         $data = strip_tags($data);
         $data = htmlspecialchars($data);
