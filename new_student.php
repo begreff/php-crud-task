@@ -1,18 +1,11 @@
 <?php
 
-require 'vendor/autoload.php';
-require 'config/conn.php';
-include 'views/student_output.php';
-
+require 'helpers/student_init.php';
 include 'views/layout/header.php';
 
-use src\ProjectRepository;
+$projectID = (int) $_GET['project_id'];
 
-$projectRepo = new ProjectRepository($db->getConnection());
-$project_id = (int) $_GET['project_id'];
-$project = $projectRepo->read($project_id);
-
-studentForm($project);
+$studentView->form($projectID);
 
 include 'views/layout/back_to_homepage.php';
 require 'views/layout/create_student_js.html';

@@ -46,24 +46,13 @@ class ProjectView
         echo $output;
     }
 
-    public function newButton()
-    {
-        echo "
-        <button type='button' class='btn btn-primary'>
-            <a href='../new_project.php' class='text-light'>
-                Add New Project
-            </a>
-        </button>
-        ";
-    }
-
     public function form()
     {
         echo "
         <h1 class='my-3'>Create New Project</h1>
         <div class='card my-3'>
             <div class='card-body'>
-                <form action='../../actions/new_project_action.php' method='post'>
+                <form action='../actions/new_project_action.php' method='post'>
                     <div class='form-group'>
                         <label for='title'>Project Title</label>
                         <input type='text' class='form-control' id='title' name='titleInput' placeholder='Enter project title' required>
@@ -80,6 +69,17 @@ class ProjectView
                 </form>
             </div>
         </div>
+        ";
+    }
+
+    public function newButton()
+    {
+        echo "
+        <button type='button' class='btn btn-primary'>
+            <a href='../new_project.php' class='text-light'>
+                Add New Project
+            </a>
+        </button>
         ";
     }
 }
