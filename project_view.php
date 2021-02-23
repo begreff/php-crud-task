@@ -2,26 +2,10 @@
 
 require 'vendor/autoload.php';
 require 'config/conn.php';
-
-include 'views/group_output.php';
+require 'helpers/project_init.php';
+require 'helpers/student_init.php';
 
 include 'views/layout/header.php';
-
-use src\ProjectRepository;
-use controllers\ProjectController;
-use views\ProjectView;
-
-use src\StudentRepository;
-use controllers\StudentController;
-use views\StudentView;
-
-$projectRepo = new ProjectRepository($db->getConnection());
-$projectController = new ProjectController($projectRepo);
-$projectView = new ProjectView($projectRepo, $projectController);
-
-$studentRepo = new StudentRepository($db->getConnection());
-$studentController = new StudentController($studentRepo);
-$studentView = new StudentView($studentRepo, $studentController);
 
 $project_id = (int) $_GET['id'];
 $projectView->detail($project_id);
