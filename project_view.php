@@ -11,17 +11,17 @@ include 'views/layout/output_helpers.php';
 use src\ProjectRepository;
 use src\GroupRepository;
 
-$projectGateway = new ProjectRepository($db->getConnection());
-$groupGateway = new GroupRepository($db->getConnection());
+$projectRepo = new ProjectRepository($db->getConnection());
+$groupRepo = new GroupRepository($db->getConnection());
 
 $project_id = (int) $_GET['id'];
-$project = $projectGateway->read($project_id);
+$project = $projectRepo->read($project_id);
 
-$students = $projectGateway->students($project_id);
-$unassignedStudents =  $projectGateway->unassignedStudents($project_id);
+$students = $projectRepo->students($project_id);
+$unassignedStudents =  $projectRepo->unassignedStudents($project_id);
 
-$groups = $groupGateway->count($project_id);
-$groupStudents = $groupGateway->all($project_id);
+$groups = $groupRepo->count($project_id);
+$groupStudents = $groupRepo->all($project_id);
 
 showDetail($project);
 echo "<input type='hidden' name='project_id' id='project_id' value='".$project_id."'>";

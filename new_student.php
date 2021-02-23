@@ -8,9 +8,9 @@ include 'views/layout/output_helpers.php';
 
 use src\ProjectRepository;
 
-$projectGateway = new ProjectRepository($db->getConnection());
+$projectRepo = new ProjectRepository($db->getConnection());
 $project_id = (int) $_GET['project_id'];
-$project = $projectGateway->read($project_id);
+$project = $projectRepo->read($project_id);
 
 studentForm($project);
 include 'views/layout/back_to_homepage.php';

@@ -5,8 +5,8 @@ require 'config/conn.php';
 include 'views/project_output.php';
 
 use src\ProjectRepository;
-$projectGateway = new ProjectRepository($db->getConnection());
-$projects = $projectGateway->all();
+$projectRepo = new ProjectRepository($db->getConnection());
+$projects = $projectRepo->all();
 
 listProjects($projects);
 
