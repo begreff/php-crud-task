@@ -1,8 +1,10 @@
 <?php
-include 'views/layout/header.php';
+
 require 'vendor/autoload.php';
 require 'config/conn.php';
 include 'views/project_output.php';
+
+include 'views/layout/header.php';
 
 use src\ProjectRepository;
 $projectRepo = new ProjectRepository($db->getConnection());
