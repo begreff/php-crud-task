@@ -2,34 +2,97 @@
 
 require 'vendor/autoload.php';
 require 'config/conn.php';
-include 'views/layout/header.php';
-include 'views/project_output.php';
-include 'views/student_output.php';
+
 include 'views/group_output.php';
-include 'views/layout/output_helpers.php';
+
+include 'views/layout/header.php';
 
 use src\ProjectRepository;
-use src\GroupRepository;
+use controllers\ProjectController;
+use views\ProjectView;
+
+use src\StudentRepository;
+use controllers\StudentController;
+use views\StudentView;
 
 $projectRepo = new ProjectRepository($db->getConnection());
-$groupRepo = new GroupRepository($db->getConnection());
+$projectController = new ProjectController($projectRepo);
+$projectView = new ProjectView($projectRepo, $projectController);
+
+$studentRepo = new StudentRepository($db->getConnection());
+$studentController = new StudentController($studentRepo);
+$studentView = new StudentView($studentRepo, $studentController);
 
 $project_id = (int) $_GET['id'];
+$projectView->detail($project_id);
+
 $project = $projectRepo->read($project_id);
+$students = $studentController->all($project_id);
+$unassignedStudents = $studentController->unassignedStudents($project_id);
 
-$students = $projectRepo->students($project_id);
-$unassignedStudents =  $projectRepo->unassignedStudents($project_id);
-
-$groups = $groupRepo->count($project_id);
-$groupStudents = $groupRepo->all($project_id);
-
-showDetail($project);
 echo "<input type='hidden' name='project_id' id='project_id' value='".$project_id."'>";
-studentTableList($students);
-newStudentButton($project_id);
-groupList($groups, $groupStudents, $unassignedStudents);
-include 'views/layout/back_to_homepage.php';
-includeJS('assets/deleteStudent.js');
-includeJS('assets/reload.js');
 
+$studentView->list($project_id);
+$studentView->newButton($project_id);
+
+echo "
+    <div class='row'>";
+for ($i = 1; $i <= $project['num_groups']; $i++) {
+    echo "    
+        <div class='col-sm'>
+        <table class='table table-bordered'>
+        <thead class='thead-light'>
+            <tr>
+                <th>";
+    $groupStudents = array_filter($students, function($student) use ($i) {
+        return $student['group_number'] == $i;
+    });
+    echo "Group ".$i;
+    if (count($groupStudents) == $project['students_per_group']) {
+        echo " - FULL";
+    }
+    echo "    
+                </th>
+            </tr>
+        </thead>
+        <tbody>";
+
+    foreach ($groupStudents as $student) {
+        echo "
+        <tr>
+            <td>".$student['firstname']." ".$student['lastname']."</td>
+        </tr>
+        ";
+    }
+    $difference = $project['students_per_group'] - count($groupStudents);
+    for ($j = 0; $j < $difference; $j++) {
+        echo "
+        <tr>
+            <td>
+                <form action='actions/update_group_action.php?group_number={$i}' method='post'>
+                    <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
+                        <option value=''>Assign student</option>";
+
+        foreach ($unassignedStudents as $student) {
+            $fullname = $student['firstname']." ".$student['lastname'];
+            echo "<option value=".$student['id'].">".$fullname."</option>";
+        }
+
+        echo "</select>
+           </form>
+          </td>
+        </tr>";
+    }
+    echo "
+        </tbody>
+        </table>
+    </div>
+    ";
+}
+echo "</div>";
+
+
+include 'views/layout/back_to_homepage.php';
+require 'views/layout/delete_student_js.html';
+require 'views/layout/reload_js.html';
 include 'views/layout/footer.php';
