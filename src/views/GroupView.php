@@ -36,6 +36,7 @@ class GroupView
     private function view($students, $groupNumber, $studentsPerGroup)
     {
         $groupStudents = $this->filterGroupMembers($students, $groupNumber);
+        $unassignedStudents = $this->filterUnassigned($students);
 
         // Display table header.
         $output = "
@@ -58,12 +59,18 @@ class GroupView
 
         // List students that have been assigned to this group.
         foreach ($groupStudents as $student) {
-            $output .= "<tr><td>".$student['firstname']." ".$student['lastname']."</td></tr>";
+            $output .=
+                "<tr><td>"
+                    .$student['firstname']." ".$student['lastname']
+                ."</td></tr>";
         }
 
         // Display a dropdown of students that have not been assigned yet.
         for ($i = 0; $i < ($studentsPerGroup - count($groupStudents)); $i++) {
-            $output .= "<tr><td>".$this->unassignedDropdown($students, $groupNumber)."</td></tr>";
+            $output .=
+                "<tr><td>"
+                    .$this->unassignedDropdown($unassignedStudents, $groupNumber)
+                ."</td></tr>";
         }
 
         $output .= "</tbody></table></div>";
@@ -74,11 +81,8 @@ class GroupView
     /*
      * Displays a dropdown with unassigned students.
      */
-    private function unassignedDropdown($students, $groupNumber)
+    private function unassignedDropdown($unassignedStudents, $groupNumber)
     {
-        // Filter unassigned students.
-        $unassignedStudents = $this->filterUnassigned($students);
-
         // Display a dropdown form.
         $output = "
         <form action='src/actions/update_group_action.php?group_number={$groupNumber}' method='post'>

@@ -65,15 +65,19 @@ class ProjectView
                 <form action='src/actions/new_project_action.php' method='post'>
                     <div class='form-group'>
                         <label for='title'>Project Title</label>
-                        <input type='text' class='form-control' id='title' name='titleInput' placeholder='Enter project title' required>
+                        <input type='text' class='form-control' id='title' name='titleInput' 
+                            placeholder='Enter project title' required>
                     </div>
                     <div class='form-group'>
                         <label for='numOfGroups'>Number of Groups</label>
-                        <input type='number' min='1' class='form-control' id='numOfGroups' name='numOfGroupsInput'  placeholder='Enter the number of groups' required>
+                        <input type='number' min='1' class='form-control' id='numOfGroups' 
+                            name='numOfGroupsInput'  placeholder='Enter the number of groups' required>
                     </div>
                     <div class='form-group'>
                         <label for='studentsPerGroup'>Students per Group</label>
-                        <input type='number' min='1' class='form-control' id='studentsPerGroup' name='studentsPerGroupInput' placeholder='Enter the number of students per group' required>
+                        <input type='number' min='1' class='form-control' 
+                            id='studentsPerGroup' name='studentsPerGroupInput' 
+                            placeholder='Enter the number of students per group' required>
                     </div>
                     <button type='submit' class='btn btn-primary'>Submit</button>
                 </form>
@@ -85,7 +89,7 @@ class ProjectView
     /*
      * Button to creating a new project.
      */
-    public function newButton()
+    public function newProjectLink()
     {
         echo "
         <button type='button' class='btn btn-primary'>

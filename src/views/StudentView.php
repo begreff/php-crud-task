@@ -95,7 +95,7 @@ class StudentView
     /*
      * Button to creating a new student.
      */
-    public function newButton($projectID)
+    public function newStudentLink($projectID)
     {
         echo "
         <div class='pt-3 pb-4'>

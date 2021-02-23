@@ -1,12 +1,9 @@
 <?php
 
-require 'vendor/autoload.php';
-require 'config/conn.php';
+include 'partials/header.php';
 require 'helpers/project_init.php';
 
-include 'views/layout/header.php';
-
 $projectView->list();
-$projectView->newButton();
+$projectView->newProjectLink();
 
-include 'views/layout/footer.php';
+include 'partials/footer.php';
