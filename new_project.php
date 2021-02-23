@@ -1,6 +1,9 @@
 <?php
 
-include 'views/layout/header.php';
-require 'views/project/form.php';
-include 'views/layout/back_button.php';
-include 'views/layout/footer.php';
+include 'partials/header.php';
+require 'helpers/project_init.php';
+
+$projectView->form();
+
+include 'partials/back_to_homepage.php';
+include 'partials/footer.php';

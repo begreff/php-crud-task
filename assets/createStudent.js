@@ -1,15 +1,14 @@
 // Create student
 $('#studentForm').on('submit', function (event) {
     event.preventDefault();
-    let form_data = $(this).serialize();
-    let project_id = document.getElementById("project_id").value;
+    let formData = $(this).serialize();
     $.ajax({
-        url: "students.php",
+        url: "../src/actions/students_api.php",
         type: "POST",
-        data: form_data,
+        data: formData,
         success: function (response) {
             alert(response);
-            window.location.href = "project_view.php?id=" + project_id;
+            window.location = document.referrer;
         }
     });
 });

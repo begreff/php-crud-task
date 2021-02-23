@@ -1,16 +1,12 @@
 <?php
 
-include 'views/layout/header.php';
-require 'vendor/autoload.php';
-require 'config/conn.php';
+include 'partials/header.php';
+require 'helpers/student_init.php';
 
-use src\ProjectRepository;
+$projectID = (int) $_GET['project_id'];
 
-$projectGateway = new ProjectRepository($db->getConnection());
-$project_id = (int) $_GET['project_id'];
-$project = $projectGateway->read($project_id);
+$studentView->form($projectID);
 
-require 'views/student/form.php';
-include 'views/layout/back_button.php';
-include 'views/student/create_js.php';
-include 'views/layout/footer.php';
+include 'partials/back_to_homepage.php';
+require 'partials/create_student_js.html';
+include 'partials/footer.php';
