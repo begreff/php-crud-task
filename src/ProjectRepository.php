@@ -24,19 +24,6 @@ class ProjectRepository
         }
     }
 
-    public function read($id)
-    {
-        $sql = "SELECT * FROM projects WHERE id = ?";
-
-        try {
-            $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array($id));
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-
     public function create($parameters)
     {
         $sql = "INSERT INTO projects (title, num_groups, students_per_group)
@@ -55,30 +42,14 @@ class ProjectRepository
         }
     }
 
-    public function unassignedStudents($project_id)
+    public function read($id)
     {
-        $sql = "SELECT students.id, students.firstname, 
-                       students.lastname, students.group_number
-                FROM students
-                INNER JOIN projects p ON students.project_id = p.id
-                WHERE p.id = $project_id AND students.group_number IS NULL";
+        $sql = "SELECT * FROM projects WHERE id = ?";
 
         try {
             $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-
-    function students($id)
-    {
-        $sql= "SELECT * FROM students WHERE project_id = ? ORDER BY id";
-        try {
-            $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array($id));
-            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $stmt->execute(array($id));
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }

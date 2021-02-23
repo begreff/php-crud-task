@@ -4,25 +4,22 @@ namespace src;
 
 class StudentRepository
 {
-    // database connection and table
     private $db_conn;
-
-    // project properties
-    public $firstname;
-    public $lastname;
-    public $group_number;
 
     public function __construct($db_conn)
     {
         $this->db_conn = $db_conn;
     }
 
-    function all()
-    {
-        $sql = "SELECT * FROM students";
+    function all($project_id) {
+        $sql = "SELECT id, firstname, lastname, group_number 
+                FROM students
+                WHERE project_id = ?
+                ORDER BY id";
+
         try {
             $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute();
+            $stmt->execute(array($project_id));
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -41,18 +38,6 @@ class StudentRepository
                 ':lastname' => $lastname,
                 ':project_id' => $project_id
             ));
-        } catch (\PDOException $e) {
-            exit($e->getMessage());
-        }
-    }
-
-    function read($id)
-    {
-        $sql = "SELECT * FROM students WHERE id = ?";
-        try {
-            $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array($id));
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
