@@ -2,27 +2,26 @@
 
 namespace views;
 
-use controllers\GroupController;
 use src\GroupRepository;
 
 class GroupView
 {
     private GroupRepository $repo;
-    private GroupController $controller;
 
-    public function __construct(GroupRepository $repo, GroupController $controller)
+    public function __construct(GroupRepository $repo)
     {
         $this->repo = $repo;
-        $this->controller = $controller;
     }
 
     public function list($projectID)
     {
         $details = $this->repo->projectInfo($projectID);
         $output = "<div class='row'>";
+
         for ($i = 1; $i <= $details['total']; $i++) {
             $output .= $this->view($projectID, $i);
         }
+
         $output .= "</div>";
         echo $output;
     }
@@ -30,7 +29,7 @@ class GroupView
     private function view($projectID, $groupNumber)
     {
         $details = $this->repo->projectInfo($projectID);
-        $groupStudents = $this->controller->groupStudents($projectID, $groupNumber);
+        $groupStudents = $this->repo->all($projectID, $groupNumber);
         $title = $this->title($groupNumber, $details['capacity'], count($groupStudents));
         $placesAvailable = $details['capacity'] - count($groupStudents);
 
@@ -49,14 +48,11 @@ class GroupView
             $output .= $this->tableRow($student['firstname']." ".$student['lastname']);
         }
 
-        for ($j = 0; $j < $placesAvailable; $j++) {
+        for ($i = 0; $i < $placesAvailable; $i++) {
             $output .= $this->tableRow($this->unassignedDropdown($projectID, $groupNumber));
         }
 
-        $output .= "
-            </tbody>
-          </table>
-        </div>";
+        $output .= "</tbody></table></div>";
 
         return $output;
     }
@@ -81,18 +77,21 @@ class GroupView
         $unassignedStudents = $this->repo->unassigned($projectID);
         $output = "
         <form action='actions/update_group_action.php?group_number={$groupNumber}' method='post'>
-                    <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
-                        <option value=''>Assign student</option>";
+            <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
+                <option value=''>Assign student</option>";
 
         foreach ($unassignedStudents as $student) {
-            $fullname = $student['firstname']." ".$student['lastname'];
-            $output .= "<option value=".$student['id'].">".$fullname."</option>";
+            $output .= $this->option($student);
         }
 
-        $output .= "</select>
-           </form>
-        ";
+        $output .= "</select></form>";
 
         return $output;
+    }
+
+    private function option($student)
+    {
+        $fullname = $student['firstname']." ".$student['lastname'];
+        return "<option value=".$student['id'].">".$fullname."</option>";
     }
 }
