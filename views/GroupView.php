@@ -19,49 +19,52 @@ class GroupView
     public function list($projectID)
     {
         $details = $this->repo->projectInfo($projectID);
+        $output = "<div class='row'>";
+        for ($i = 1; $i <= $details['total']; $i++) {
+            $output .= $this->view($projectID, $i);
+        }
+        $output .= "</div>";
+        echo $output;
+    }
+
+    private function view($projectID, $groupNumber)
+    {
+        $details = $this->repo->projectInfo($projectID);
+        $groupStudents = $this->controller->groupStudents($projectID, $groupNumber);
+        $title = $this->title($groupNumber, $details['capacity'], count($groupStudents));
+        $placesAvailable = $details['capacity'] - count($groupStudents);
+
         $output = "
-        <div class='row'>";
-            for ($i = 1; $i <= $details['total']; $i++) {
-                $output .= "    
-            <div class='col-sm'>
+        <div class='col-sm'>
             <table class='table table-bordered'>
             <thead class='thead-light'>
                 <tr>
-                    <th>";
-                $groupStudents = $this->controller->groupStudents($projectID, $i);
-                $output .= $this->title($i, $details['capacity'], count($groupStudents));
-
-        $output .= "    
+                    <th>".$title."
                     </th>
                 </tr>
             </thead>
             <tbody>";
 
-            foreach ($groupStudents as $student) {
-                $output .= "
-                <tr>
-                    <td>".$student['firstname']." ".$student['lastname']."</td>
-                </tr>
-                ";
-                    }
-                    $difference = $details['capacity'] - count($groupStudents);
-                    for ($j = 0; $j < $difference; $j++) {
-                        $output .= "
-                <tr>
-                    <td>";
-                        $output .= $this->unassignedDropdown($projectID, $i);
-                        $output .= "
-                  </td>
-                </tr>";
-                    }
-                $output .= "
-                </tbody>
-                </table>
-            </div>
-            ";
+        foreach ($groupStudents as $student) {
+            $output .= $this->tableRow($student['firstname']." ".$student['lastname']);
         }
-        $output .= "</div>";
-        echo $output;
+
+        for ($j = 0; $j < $placesAvailable; $j++) {
+            $output .= $this->tableRow($this->unassignedDropdown($projectID, $groupNumber));
+        }
+
+        $output .= "
+            </tbody>
+          </table>
+        </div>";
+
+        return $output;
+    }
+
+
+    private function tableRow($data)
+    {
+        return "<tr><td>".$data."</td></tr>";
     }
 
     private function title($number, $capacity, $taken)
@@ -75,7 +78,7 @@ class GroupView
 
     private function unassignedDropdown($projectID, $groupNumber)
     {
-        $unassignedStudents = $this->controller->unassignedStudents($projectID);
+        $unassignedStudents = $this->repo->unassigned($projectID);
         $output = "
         <form action='actions/update_group_action.php?group_number={$groupNumber}' method='post'>
                     <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
