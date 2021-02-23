@@ -1,6 +1,6 @@
 <?php
 
-namespace src;
+namespace src\models;
 
 class ProjectRepository
 {
@@ -11,6 +11,9 @@ class ProjectRepository
         $this->db_conn = $db_conn;
     }
 
+    /*
+     * Retrieves all projects.
+     */
     public function all()
     {
         $sql = "SELECT * FROM projects";
@@ -24,6 +27,9 @@ class ProjectRepository
         }
     }
 
+    /*
+     * Adds a project to the projects table.
+     */
     public function create($parameters)
     {
         $sql = "INSERT INTO projects (title, num_groups, students_per_group)
@@ -42,6 +48,9 @@ class ProjectRepository
         }
     }
 
+    /*
+     * Retrieves a specific project from the database.
+     */
     public function read($id)
     {
         $sql = "SELECT * FROM projects WHERE id = ?";

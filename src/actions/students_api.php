@@ -3,10 +3,10 @@
 // CORS headers
 header('Access-Control-Allow-Origin: *');
 
-require 'vendor/autoload.php';
-require 'config/conn.php';
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../config/conn.php';
 
-use src\StudentRepository;
+use src\models\StudentRepository;
 
 // Create object for accessing the student table in the database
 $studentRepo = new StudentRepository($db->getConnection());

@@ -1,9 +1,9 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
-require __DIR__.'/../config/conn.php';
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../config/conn.php';
 
-use src\StudentRepository;
+use src\models\StudentRepository;
 
 $studentRepo = new StudentRepository($db->getConnection());
 

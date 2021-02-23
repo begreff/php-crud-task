@@ -1,24 +1,28 @@
 <?php
 
-namespace views;
+namespace src\views;
+
+use src\models\ProjectRepository;
 
 class ProjectView
 {
-    private $repo;
-    private $controller;
+    private ProjectRepository $repo;
 
-    public function __construct($repo, $controller)
+    public function __construct(ProjectRepository $repo)
     {
         $this->repo = $repo;
-        $this->controller = $controller;
     }
 
+    /*
+     * Lists all projects.
+     */
     public function list()
     {
         $projects = $this->repo->all();
         $output = "<h1 class='my-3'>All Projects</h1>";
 
         if ($projects) {
+            // Display each project.
             foreach ($projects as $project) {
             $output .=
             "<div class='card my-3'>
@@ -34,6 +38,9 @@ class ProjectView
         echo $output;
     }
 
+    /*
+     * Displays project info.
+     */
     public function detail($id)
     {
         $project = $this->repo->read($id);
@@ -46,13 +53,16 @@ class ProjectView
         echo $output;
     }
 
+    /*
+     * Displays a form for creating a new project.
+     */
     public function form()
     {
         echo "
         <h1 class='my-3'>Create New Project</h1>
         <div class='card my-3'>
             <div class='card-body'>
-                <form action='../actions/new_project_action.php' method='post'>
+                <form action='src/actions/new_project_action.php' method='post'>
                     <div class='form-group'>
                         <label for='title'>Project Title</label>
                         <input type='text' class='form-control' id='title' name='titleInput' placeholder='Enter project title' required>
@@ -72,11 +82,14 @@ class ProjectView
         ";
     }
 
+    /*
+     * Button to creating a new project.
+     */
     public function newButton()
     {
         echo "
         <button type='button' class='btn btn-primary'>
-            <a href='../new_project.php' class='text-light'>
+            <a href='../../new_project.php' class='text-light'>
                 Add New Project
             </a>
         </button>

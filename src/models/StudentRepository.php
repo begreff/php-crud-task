@@ -1,6 +1,6 @@
 <?php
 
-namespace src;
+namespace src\models;
 
 class StudentRepository
 {
@@ -11,6 +11,9 @@ class StudentRepository
         $this->db_conn = $db_conn;
     }
 
+    /*
+     * Returns all students on a project.
+     */
     function all($project_id) {
         $sql = "SELECT id, firstname, lastname, group_number 
                 FROM students
@@ -26,6 +29,9 @@ class StudentRepository
         }
     }
 
+    /*
+     * Adds a student to the students table.
+     */
     function create($firstname, $lastname, $project_id)
     {
         $sql = "INSERT INTO students (firstname, lastname, project_id) 
@@ -43,6 +49,9 @@ class StudentRepository
         }
     }
 
+    /*
+     * Updates student information on the database.
+     */
     function update($id, $group_number)
     {
         $sql = "UPDATE students 
@@ -59,6 +68,9 @@ class StudentRepository
         }
     }
 
+    /*
+     * Deletes a student from the database.
+     */
     function delete($id)
     {
         $sql = "DELETE FROM students WHERE id = ?";

@@ -1,29 +1,30 @@
 <?php
 
-namespace views;
+namespace src\views;
 
-use src\StudentRepository;
-use controllers\StudentController;
+use src\models\StudentRepository;
 
 class StudentView
 {
     private StudentRepository $repo;
-    private StudentController $controller;
 
-    public function __construct($repo, $controller)
+    public function __construct(StudentRepository $repo)
     {
         $this->repo = $repo;
-        $this->controller = $controller;
     }
 
+    /*
+     * Lists a table of all students on a project.
+     */
     public function list($project_id)
     {
         $students = $this->repo->all($project_id);
+
+        // Table head.
         $output =
             "
             <h1 class='my-3'>Students</h1>
             <table id='studentsTable' class='table table-bordered'>
-                <tbody>
                 <thead class='thead-light'>
                 <tr>
                     <th>Student</th>
@@ -31,9 +32,12 @@ class StudentView
                     <th>Actions</th>
                 </tr>
                 </thead>
+                <tbody>
             ";
 
+        // Table body.
         if (count($students) > 0) {
+            // Display each student's information in a table row.
             foreach($students as $student) {
                 $output .= "
                     <tr>
@@ -46,23 +50,25 @@ class StudentView
                                 Delete
                             </button>
                         </td>
-                    </tr>
-                    ";
+                    </tr>";
             }
         } else {
             $output .= "
-                <tr>
-                    <td colspan='4'>No Students Found</td>
-                </tr>
-                ";
+                    <tr>
+                        <td colspan='4'>No Students Found</td>
+                    </tr>";
         }
+
         $output .= "
             </tbody>
-        </table>
-        ";
+        </table>";
+
         echo $output;
     }
 
+    /*
+     * Displays a form for creating a new student.
+     */
     public function form($projectID)
     {
         echo "
@@ -86,6 +92,9 @@ class StudentView
         ";
     }
 
+    /*
+     * Button to creating a new student.
+     */
     public function newButton($projectID)
     {
         echo "
