@@ -2,5 +2,5 @@
 
 use config\Database;
 
-$config = require 'config/config.php';
+$config = require __DIR__.'/config.php';
 $db = new Database($config['database']);

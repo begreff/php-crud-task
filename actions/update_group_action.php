@@ -1,7 +1,7 @@
 <?php
 
-require 'vendor/autoload.php';
-require 'config/conn.php';
+require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../config/conn.php';
 
 use src\StudentRepository;
 
