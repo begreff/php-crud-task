@@ -1,9 +1,9 @@
 <?php
 
-include 'partials/header.php';
-require 'helpers/project_init.php';
+include 'resources/partials/header.php';
+require 'resources/helpers/project_init.php';
 
 $projectView->form();
 
-include 'partials/back_to_homepage.php';
-include 'partials/footer.php';
+include 'resources/partials/back_to_homepage.php';
+include 'resources/partials/footer.php';
