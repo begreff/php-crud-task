@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<dataset>
+    <projects id="1" title="Test" num_groups="2" students_per_group="3" />
+    <students id="1" firstname="thomas" lastname="perry" project_id="1" />
+    <students id="2" firstname="anna" lastname="loh" project_id="1" />
+</dataset>

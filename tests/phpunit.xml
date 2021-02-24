@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="../vendor/autoload.php" colors="true" backupGlobals="false"
+         backupStaticAttributes="false" syntaxCheck="false">
+    <php>
+        <var name="DB_DSN" value="mysql:dbname=nfq_tomas_mikus_test;host=localhost" />
+        <var name="DB_USER" value="root" />
+        <var name="DB_PASSWD" value="password" />
+        <var name="DB_DBNAME" value="nfq_tomas_mikus_test" />
+        <var name="XML_FILE" value="students_fixture.xml" />
+    </php>
+</phpunit>
