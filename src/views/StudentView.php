@@ -85,7 +85,7 @@ class StudentView
                         <input type='text' name='lastname' id='lastname' class='form-control' required />
                     </div>
                     <input type='hidden' name='project_id' id='project_id' value=".$projectID.">
-                    <input type='submit' name='button_action' id='button_action' class='btn btn-info' value='Create' />
+                    <input type='submit' name='button_action' id='button_action' class='btn btn-primary' value='Create' />
                 </form>
             </div>
         </div>
