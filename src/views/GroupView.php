@@ -16,72 +16,73 @@ class GroupView
     /*
      * Displays a list of all groups on the project.
      */
-    public function list($projectID, $numGroups, $studentsPerGroup)
+    public function list($project)
     {
-        $students = $this->repo->all($projectID);
+        $students = $this->repo->all($project['id']);
+        $unassignedStudents = $this->filterUnassigned($students);
+
         $output = "<div class='row'>";
 
         // Display all groups.
-        for ($groupNumber = 1; $groupNumber <= $numGroups; $groupNumber++) {
-            $output .= $this->view($students, $groupNumber, $studentsPerGroup);
+        for ($groupNumber = 1; $groupNumber <= $project['num_groups']; $groupNumber++) {
+            // Filter group members.
+            $groupStudents = $this->filterGroupMembers($students, $groupNumber);
+            $emptySlots = $project['students_per_group'] - count($groupStudents);
+
+            // Display table header.
+            $output .= "
+            <div class='col-sm'>
+                <table class='table table-bordered'>
+                <thead class='thead-light'>
+                    <tr>
+                        <th>";
+
+            // Display table title.
+            if ($emptySlots == 0) {
+                $output .= "Group ".$groupNumber." - FULL";
+            } else {
+                $output .= "Group ".$groupNumber;
+            }
+
+            $output .= "</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+            // List students that have been assigned to this group.
+            $output .= $this->listAssigned($groupStudents);
+
+            // Display a dropdown of students that have not been assigned yet.
+            for ($i = 0; $i < $emptySlots; $i++) {
+                $output .=
+                    "<tr><td>"
+                        .$this->dropdown($unassignedStudents, $groupNumber)
+                    ."</td></tr>";
+            }
+
+            $output .= "</tbody></table></div>";
         }
 
         $output .= "</div>";
         echo $output;
     }
 
-    /*
-     * Displays a view for a single group.
-     */
-    private function view($students, $groupNumber, $studentsPerGroup)
+    private function listAssigned($students)
     {
-        $groupStudents = $this->filterGroupMembers($students, $groupNumber);
-        $unassignedStudents = $this->filterUnassigned($students);
-
-        // Display table header.
-        $output = "
-        <div class='col-sm'>
-            <table class='table table-bordered'>
-            <thead class='thead-light'>
-                <tr>
-                    <th>";
-                    // Display table title.
-                    if ($studentsPerGroup == count($groupStudents)) {
-                        $output .= "Group ".$groupNumber." - FULL";
-                    } else {
-                        $output .= "Group ".$groupNumber;
-                    }
-
-        $output .= "</th>
-                </tr>
-            </thead>
-            <tbody>";
-
-        // List students that have been assigned to this group.
-        foreach ($groupStudents as $student) {
+        $output = "";
+        foreach ($students as $student) {
             $output .=
                 "<tr><td>"
-                    .$student['firstname']." ".$student['lastname']
+                .$student['firstname']." ".$student['lastname']
                 ."</td></tr>";
         }
-
-        // Display a dropdown of students that have not been assigned yet.
-        for ($i = 0; $i < ($studentsPerGroup - count($groupStudents)); $i++) {
-            $output .=
-                "<tr><td>"
-                    .$this->unassignedDropdown($unassignedStudents, $groupNumber)
-                ."</td></tr>";
-        }
-
-        $output .= "</tbody></table></div>";
-
         return $output;
     }
 
     /*
      * Displays a dropdown with unassigned students.
      */
-    private function unassignedDropdown($unassignedStudents, $groupNumber)
+    private function dropdown($students, $groupNumber)
     {
         // Display a dropdown form.
         $output = "
@@ -90,7 +91,7 @@ class GroupView
                 <option value=''>Assign student</option>";
 
         // Display an option for every unassigned student.
-        foreach ($unassignedStudents as $student) {
+        foreach ($students as $student) {
             $output .=
                 "<option value=".$student['id'].">"
                     .$student['firstname']." ".$student['lastname']
