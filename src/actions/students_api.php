@@ -15,35 +15,32 @@ $api = $_SERVER['REQUEST_METHOD'];
 
 // Get the ID from the url
 $id = intval($_GET['id'] ?? '');
-$project_id = intval($_GET['project_id'] ?? '');
 
-// Add a new student to the database
-if ($api == 'POST') {
+switch ($api) {
+    case 'POST':
+        $firstname = $db->sanitizeInput($_POST['firstname']);
+        $lastname = $db->sanitizeInput($_POST['lastname']);
+        $project_id = $db->sanitizeInput($_POST['project_id']);
 
-    $firstname = $db->sanitizeInput($_POST['firstname']);
-    $lastname = $db->sanitizeInput($_POST['lastname']);
-    $project_id = $db->sanitizeInput($_POST['project_id']);
-
-    if ($studentRepo->find($firstname, $lastname)[1] == 1) {
-        echo "Student with this name already exists on the system.";
-    } else {
-        if ($studentRepo->create($firstname, $lastname, $project_id)) {
-            echo 'Student added successfully.';
+        if ($studentRepo->find($firstname, $lastname)[1] == 1) {
+            echo "Student with this name already exists on the system.";
         } else {
-            echo "Failed to create student.";
+            if ($studentRepo->create($firstname, $lastname, $project_id)) {
+                echo 'Student added successfully.';
+            } else {
+                echo "Failed to create student.";
+            }
         }
-    }
-}
-
-// Delete student from the database
-if ($api == 'DELETE') {
-    if ($id != 0) {
-        if ($studentRepo->delete($id)) {
-            echo 'Student deleted successfully.';
+        break;
+    case 'DELETE':
+        if ($id != 0) {
+            if ($studentRepo->delete($id)) {
+                echo 'Student deleted successfully.';
+            } else {
+                echo 'Failed to delete student.';
+            }
         } else {
-            echo 'Failed to delete student.';
+            echo 'Student not found.';
         }
-    } else {
-        echo 'Student not found.';
-    }
+        break;
 }
