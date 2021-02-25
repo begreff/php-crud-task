@@ -1,7 +1,7 @@
 <?php
 
 include 'views/partials/header.php';
-require 'resources/helpers/student_init.php';
+require_once 'resources/helpers/student_init.php';
 
 $projectID = (int) $_GET['project_id'];
 

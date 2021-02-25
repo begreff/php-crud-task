@@ -1,6 +1,7 @@
 <?php
+
 include 'views/partials/header.php';
-require 'resources/helpers/project_init.php';
+require_once 'resources/helpers/project_init.php';
 
 $projectController->list();
 $projectController->newProjectLink();
