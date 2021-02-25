@@ -30,6 +30,23 @@ class StudentRepository
     }
 
     /*
+     * Checks if a student with this name already exists.
+     */
+    function find($firstname, $lastname) {
+        $sql = "SELECT 1
+                FROM students
+                WHERE firstname = ? AND lastname = ?";
+
+        try {
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute(array($firstname, $lastname));
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    /*
      * Adds a student to the students table.
      */
     function create($firstname, $lastname, $project_id)
