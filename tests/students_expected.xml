@@ -4,5 +4,4 @@
     <student_groups project_id="1" group_number="2" />
     <students id="1" firstname="thomas" lastname="perry" project_id="1" />
     <students id="2" firstname="anna" lastname="loh" project_id="1" />
-    <students id="3" firstname="jess" lastname="joss" project_id="1" group_number="2" />
 </dataset>
