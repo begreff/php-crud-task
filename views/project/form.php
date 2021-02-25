@@ -1,7 +1,7 @@
 <h1 class='my-3'>Create New Project</h1>
 <div class='card my-3'>
     <div class='card-body'>
-        <form action='src/actions/new_project_action.php' method='post'>
+        <form action='src/actions/new_project.php' method='post'>
             <div class='form-group'>
                 <label for='title'>Project Title</label>
                 <input type='text' class='form-control' id='title' name='titleInput'

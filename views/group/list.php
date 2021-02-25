@@ -26,7 +26,7 @@
                 <tr>
                     <td>
                         <!-- Display a dropdown form.-->
-                        <form action='src/actions/update_group_action.php?group_number=<?= $groupNumber ?>' method='post'>
+                        <form action='src/actions/update_group.php?group_number=<?= $groupNumber ?>' method='post'>
                             <select onchange='this.form.submit()' name='studentSelected' id='studentSelected'>
                                 <option value=''>Assign student</option>
 
