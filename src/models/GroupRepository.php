@@ -30,14 +30,33 @@ class GroupRepository
     }
 
     /*
-     * Retrieves all group info from the database.
+     * Retrieves all group numbers and their capacity from the database.
      */
     public function all($projectID)
     {
-        $sql = "SELECT id, firstname, lastname, group_number 
-            FROM students
-            WHERE project_id = ?
-            ORDER BY id";
+        $sql = "SELECT s.group_number AS number, 
+                       p.students_per_group AS capacity
+                FROM student_groups s 
+                INNER JOIN projects p on s.project_id = p.id
+                WHERE project_id = ?";
+
+        try {
+            $stmt = $this->db_conn->prepare($sql);
+            $stmt->execute(array($projectID));
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    /*
+     * Retrieves students on a project from the database.
+     */
+    public function students($projectID)
+    {
+        $sql = "SELECT id, firstname, lastname, group_number
+                FROM students 
+                WHERE project_id = ?";
 
         try {
             $stmt = $this->db_conn->prepare($sql);

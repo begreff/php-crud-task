@@ -4,7 +4,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../config/conn.php';
 
 use src\models\StudentRepository;
-use src\views\StudentView;
+use src\controllers\StudentController;
 
 $studentRepo = new StudentRepository($db->getConnection());
-$studentView = new StudentView($studentRepo);
+$studentController = new StudentController($studentRepo);

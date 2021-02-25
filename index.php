@@ -1,9 +1,8 @@
 <?php
-
-include 'resources/partials/header.php';
+include 'views/partials/header.php';
 require 'resources/helpers/project_init.php';
 
-$projectView->list();
-$projectView->newProjectLink();
+$projectController->list();
+$projectController->newProjectLink();
 
-include 'resources/partials/footer.php';
+include 'views/partials/footer.php';

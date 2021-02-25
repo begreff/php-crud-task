@@ -1,18 +1,19 @@
 <?php
 
-include 'resources/partials/header.php';
+include 'views/partials/header.php';
 
 require 'resources/helpers/project_init.php';
 require 'resources/helpers/student_init.php';
 require 'resources/helpers/group_init.php';
-require 'resources/helpers/retrieve_project.php';
 
-$projectView->detail($project_id);
-$studentView->list($project_id);
-$studentView->newStudentLink($project_id);
-$groupView->list($project);
+$projectID = (int) $_GET['id'];
 
-include 'resources/partials/back_to_homepage.php';
-require 'resources/partials/delete_student_js.html';
-require 'resources/partials/reload_js.html';
-include 'resources/partials/footer.php';
+$projectController->detail($projectID);
+$studentController->list($projectID);
+$studentController->newStudentLink($projectID);
+$groupController->all($projectID);
+
+include 'views/partials/back_to_homepage.php';
+require 'views/partials/delete_student_js.html';
+require 'views/partials/reload_js.html';
+include 'views/partials/footer.php';
