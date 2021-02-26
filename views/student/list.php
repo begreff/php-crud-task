@@ -1,5 +1,5 @@
 <h1 class='my-3'>Students</h1>
-<table id='studentsTable' class='table table-bordered'>
+<table id='studentsTable' class='table table-bordered text-center'>
     <thead class='thead-light'>
         <tr>
             <th>Student</th>
@@ -13,7 +13,11 @@
         <?php foreach($students as $student) : ?>
         <tr>
             <td><?= $student['firstname'] . " " . $student['lastname'] ?></td>
-            <td><?= $student['group_number'] ?></td>
+            <?php if ($student['group_number']) : ?>
+                <td>Group #<?= $student['group_number'] ?></td>
+            <?php else : ?>
+                <td>-</td>
+            <?php endif; ?>
             <td>
                 <input type='hidden' name='project_id' id='project_id' value="$project_id">
                 <button type='button' name='delete' class='btn

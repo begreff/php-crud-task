@@ -20,12 +20,12 @@ switch ($api) {
     case 'POST':
         $firstname = $db->sanitizeInput($_POST['firstname']);
         $lastname = $db->sanitizeInput($_POST['lastname']);
-        $project_id = $db->sanitizeInput($_POST['project_id']);
+        $projectID = $db->sanitizeInput($_POST['projectID']);
 
         if ($studentRepo->find($firstname, $lastname)[1] == 1) {
             echo "Student with this name already exists on the system.";
         } else {
-            if ($studentRepo->create($firstname, $lastname, $project_id)) {
+            if ($studentRepo->create($firstname, $lastname, $projectID)) {
                 echo 'Student added successfully.';
             } else {
                 echo "Failed to create student.";

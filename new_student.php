@@ -3,7 +3,7 @@
 include 'views/partials/header.php';
 require_once 'resources/helpers/student_init.php';
 
-$projectID = (int) $_GET['project_id'];
+$projectID = (int) $_GET['projectID'];
 
 $studentController->form($projectID);
 

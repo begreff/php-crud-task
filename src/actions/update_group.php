@@ -6,9 +6,9 @@ use src\models\StudentRepository;
 
 $studentRepo = new StudentRepository($db->getConnection());
 
-$student_id = (int)$_POST['studentSelected'];
-$group_number= (int)$_GET['group_number'];
+$studentID = (int)$_POST['studentSelected'];
+$groupNumber= (int)$_GET['number'];
 
-$studentRepo->update($student_id, $group_number);
+$studentRepo->update($studentID, $groupNumber);
 
 header('Location: '.$_SERVER['HTTP_REFERER']);

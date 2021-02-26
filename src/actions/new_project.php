@@ -9,20 +9,16 @@ $projectRepo = new ProjectRepository($db->getConnection());
 $groupRepo = new GroupRepository($db->getConnection());
 
 // Create project.
-$id = $projectRepo->create([
-    'title' => $db->sanitizeInput($_POST['titleInput']),
-    'num_groups' => $db->sanitizeInput($_POST['numOfGroupsInput']),
-    'students_per_group' => $db->sanitizeInput($_POST['studentsPerGroupInput'])
-]);
+$title = $db->sanitizeInput($_POST['titleInput']);
+$numGroups = $db->sanitizeInput($_POST['numOfGroupsInput']);
+$studentsPerGroup = $db->sanitizeInput($_POST['studentsPerGroupInput']);
+
+$id = $projectRepo->create($title, $numGroups, $studentsPerGroup);
 
 // Create and assign groups to project.
-$numGroups = $db->sanitizeInput($_POST['numOfGroupsInput']);
 if ($id) {
     for ($i = 1; $i <= $numGroups; $i++) {
-        $groupRepo->create([
-            'project_id' => $id,
-            'group_number' => $i,
-        ]);
+        $groupRepo->create($id, $i);
     }
 }
 
