@@ -17,7 +17,7 @@ class GroupRepository
     public function create($projectID, $groupNumber)
     {
         $sql = "INSERT INTO student_groups (project_id, group_number)
-                VALUES (:project_id, :group_number)";
+                VALUES (?, ?)";
         try {
             $statement = $this->db_conn->prepare($sql);
             $statement->execute(array($projectID, $groupNumber));

@@ -33,7 +33,7 @@ class ProjectRepository
     public function create($title, $numGroups, $studentsPerGroup)
     {
         $sql = "INSERT INTO projects (title, num_groups, students_per_group)
-                VALUES (:title, :num_groups, :students_per_group)";
+                VALUES (?, ?, ?)";
         try {
             $stmt = $this->db_conn->prepare($sql);
             $stmt->execute(array($title, $numGroups, $studentsPerGroup));
