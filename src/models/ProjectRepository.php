@@ -30,21 +30,16 @@ class ProjectRepository
     /*
      * Adds a project to the projects table.
      */
-    public function create($parameters)
+    public function create($title, $numGroups, $studentsPerGroup)
     {
         $sql = "INSERT INTO projects (title, num_groups, students_per_group)
                 VALUES (:title, :num_groups, :students_per_group)";
         try {
             $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array(
-                'title' => $parameters['title'],
-                'num_groups' => $parameters['num_groups'],
-                'students_per_group' => $parameters['students_per_group'],
-            ));
+            $stmt->execute(array($title, $numGroups, $studentsPerGroup));
             return $this->db_conn->lastInsertID();
         } catch (\Exception $e) {
-            print_r($e->getMessage());
-            return null;
+            exit($e->getMessage());
         }
     }
 

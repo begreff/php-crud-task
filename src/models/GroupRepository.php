@@ -14,16 +14,13 @@ class GroupRepository
     /*
      * Adds a group to the student_groups table.
      */
-    public function create($parameters)
+    public function create($projectID, $groupNumber)
     {
         $sql = "INSERT INTO student_groups (project_id, group_number)
                 VALUES (:project_id, :group_number)";
         try {
             $statement = $this->db_conn->prepare($sql);
-            $statement->execute(array(
-                'project_id' => $parameters['project_id'],
-                'group_number' => $parameters['group_number'],
-            ));
+            $statement->execute(array($projectID, $groupNumber));
         } catch (\Exception $e) {
             exit($e->getMessage());
         }

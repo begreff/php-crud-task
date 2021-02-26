@@ -14,7 +14,7 @@ class StudentRepository
     /*
      * Returns all students on a project.
      */
-    function all($project_id) {
+    function all($projectID) {
         $sql = "SELECT id, firstname, lastname, group_number 
                 FROM students
                 WHERE project_id = ?
@@ -22,7 +22,7 @@ class StudentRepository
 
         try {
             $stmt = $this->db_conn->prepare($sql);
-            $stmt->execute(array($project_id));
+            $stmt->execute(array($projectID));
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             exit($e->getMessage());
@@ -49,18 +49,14 @@ class StudentRepository
     /*
      * Adds a student to the students table.
      */
-    function create($firstname, $lastname, $project_id)
+    function create($firstname, $lastname, $projectID)
     {
         $sql = "INSERT INTO students (firstname, lastname, project_id) 
-                VALUES (:firstname, :lastname, :project_id)";
+                VALUES (?, ?, ?)";
 
         try {
             $stmt = $this->db_conn->prepare($sql);
-            return $stmt->execute(array(
-                ':firstname' => $firstname,
-                ':lastname' => $lastname,
-                ':project_id' => $project_id
-            ));
+            return $stmt->execute(array($firstname, $lastname, $projectID));
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
@@ -69,17 +65,14 @@ class StudentRepository
     /*
      * Updates student information on the database.
      */
-    function update($id, $group_number)
+    function update($id, $groupNumber)
     {
         $sql = "UPDATE students 
-                SET group_number = :group_number
-                WHERE id = :id";
+                SET group_number = ?
+                WHERE id = ?";
         try {
             $statement = $this->db_conn->prepare($sql);
-            return $statement->execute(array(
-                ':id' => $id,
-                ':group_number' => $group_number
-            ));
+            return $statement->execute(array($groupNumber, $id));
         } catch (\PDOException $e) {
             exit($e->getMessage());
         }
