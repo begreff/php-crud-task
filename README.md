@@ -9,9 +9,9 @@ Run the tests with `phpunit  -c tests/phpunit.xml tests`
 
 Everything should work as intended.
 
-### Technology used
+### Technologies used
 
-I used `PHP 7.4`, `MySQL`, `PHPUnit`, `JQuery` and `Bootstrap`.
+I used `PHP 7.4`, `MySQL`, `PHPUnit`, `JavaScript`, `JQuery` and `Bootstrap`.
 
 I implemented the project without using a framework - being new to PHP, I wanted to learn it the hard way.
 
