@@ -36,3 +36,20 @@ CREATE TABLE IF NOT EXISTS students  (
      FOREIGN KEY (project_id, group_number) REFERENCES student_groups(project_id, group_number),
      UNIQUE (firstname, lastname)
 );
+
+
+INSERT INTO projects (id, title, num_groups, students_per_group)
+VALUES (1, 'Winter Photoshoot', 5, 2);
+
+INSERT INTO student_groups (project_id, group_number)
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5);
+
+INSERT INTO students (firstname, lastname, project_id, group_number)
+VALUES ('Ada', 'Lovelace', 1, 2),
+       ('Grace', 'Hopper', 1, 1),
+       ('Margaret', 'Hamilton', 1, null),
+       ('Joan', 'Clarke', 1, 2);
