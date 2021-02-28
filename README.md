@@ -17,15 +17,19 @@ I implemented the project without using a framework - being new to PHP, I wanted
 
 ### Decisions made
 
+I created a Database class which retrieves database configuration details from `config.php`.
+
 I created a Repository class for each of the database entities. 
 
-I also added Controller classes, which retrieve the data needed for the views via the repositories. They do not deal with the changes the user makes, as I haven't yet implemented a router.
+I also added Controller classes, which retrieve the data needed for the views via the repositories and then load the views. They do not deal with the changes the user makes, as I haven't yet implemented a router.
 
 The changes are dealt with by the code in `src/actions`.
 
 Students are created/deleted by sending AJAX calls to a REST API.
 
 ### Reflection
+
+The program could benefit from Router and Request classes, as well as a Query class for abstracting database calls shared between the repositories.
 
 The solution is not up to my standards - I prefer code that is clean and easy to understand, and parts of this are not.
 
